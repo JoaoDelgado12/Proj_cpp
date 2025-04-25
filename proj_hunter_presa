@@ -1,0 +1,47 @@
+#include <iostream>
+#include <random>
+
+using namespace std;
+
+const int TAM_MAP = 30;
+char map[TAM_MAP][TAM_MAP];
+  
+void create_map(){
+    for(int i=0; i < TAM_MAP; i++){
+        for(int j=0; j < TAM_MAP; j++){
+            map[i][j] = ' ';
+        }
+    }
+}
+void show_map(){
+    for(int i=0; i < TAM_MAP; i++){
+        for(int j=0; j < TAM_MAP; j++){
+            cout << map[i][j];
+        }
+        cout << "\n";
+    }
+}
+
+class animal{
+    protected:
+    bool life;
+    int fome;
+};
+
+class hunter : protected animal{
+    private:
+    string name;
+    
+    public:
+    
+};
+
+
+
+
+int main(){
+	create_map();
+	show_map();
+	
+    
+}
