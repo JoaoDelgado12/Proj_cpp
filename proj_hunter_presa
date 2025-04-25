@@ -1,47 +1,159 @@
 #include <iostream>
 #include <random>
+#include <string> // para mudar o tipo do indice para string no nome
+#include <cstring> // para facilitar copiar matriz
 
 using namespace std;
 
 const int TAM_MAP = 30;
 char map[TAM_MAP][TAM_MAP];
-  
-void create_map(){
-    for(int i=0; i < TAM_MAP; i++){
-        for(int j=0; j < TAM_MAP; j++){
+
+int num_int_rand() {
+    // 1. Definir o intervalo (range)
+    int min = 0;  // Valor mínimo
+    int max = TAM_MAP - 1;  // Valor máximo (array is 0..TAM_MAP-1)
+
+    // 2. Inicializar o gerador de números aleatórios
+    random_device rd;  // Dispositivo aleatório (fonte de entropia)
+    mt19937 gen(rd()); // Motor de geração (Mersenne Twister)
+
+    // 3. Criar uma distribuição uniforme no intervalo [min, max]
+    uniform_int_distribution<int> distrib(min, max);
+
+    // 4. Gerar o número aleatório
+    return distrib(gen);
+}
+
+void create_map() {
+    for(int i = 0; i < TAM_MAP; i++) {
+        for(int j = 0; j < TAM_MAP; j++) {
             map[i][j] = ' ';
         }
     }
 }
-void show_map(){
-    for(int i=0; i < TAM_MAP; i++){
-        for(int j=0; j < TAM_MAP; j++){
+
+void show_map() {
+    for(int i = 0; i < TAM_MAP; i++) {
+        for(int j = 0; j < TAM_MAP; j++) {
             cout << map[i][j];
         }
         cout << "\n";
     }
 }
 
-class animal{
-    protected:
-    bool life;
-    int fome;
+class animal {
+	protected:
+   		bool life = true;
+    	int fome;
+    	int position[2]; // coordenada do animal
+    	int hood[8][2]; // vizinhaça da coordenada do animal
+    	
+    	public:
+    		animal(){
+    		//para nascimento
+    		bool test = true;
+    		while(test) {
+        	position[0] = num_int_rand();
+        	position[1] = num_int_rand();
+        
+        	if(map[position[0]][position[1]] == ' ') {
+            	test = false;
+        		}
+			}
+		
+			
+		}
+			void up_hood();
 };
 
-class hunter : protected animal{
-    private:
+
+void animal::up_hood(){
+	if(position[0] == 0){
+		if(position[1] == 0){
+			int temp_hood[8][2] = {{0, TAM_MAP-1}, {0, 1}, 
+			{1, TAM_MAP-1}, {1, 0}, {1, 1}, 
+			{TAM_MAP-1, 0}, {TAM_MAP-1, TAM_MAP-1}, {TAM_MAP-1, 1} };
+			memcpy(hood, temp_hood, sizeof(hood));
+		}else if(position[1] == TAM_MAP - 1){
+			int temp_hood[8][2] = {{0, TAM_MAP-2}, {0, 1}, 
+			{TAM_MAP-1, TAM_MAP-1}, {TAM_MAP-1, 0}, {TAM_MAP-1, TAM_MAP-2}, 
+			{1, TAM_MAP-2}, {1, TAM_MAP-1}, {1, 0} };	
+			memcpy(hood, temp_hood, sizeof(hood));
+		}else{
+			int temp_hood[8][2] = {{position[0], position[1]-1}, {position[0], position[1]+1}, 
+			{TAM_MAP-1, position[1]-1}, {TAM_MAP-1, position[1]}, {TAM_MAP-1, position[1]+1}, 
+			{position[0]+1, position[1]-1}, {position[0]+1, position[1]}, {position[0]+1, position[1]+1}};
+			memcpy(hood, temp_hood, sizeof(hood));
+		}
+		
+	}else if(position[0] == TAM_MAP - 1){
+		if(position[1] == 0){
+			int temp_hood[8][2] = {{TAM_MAP-1, TAM_MAP-1}, {TAM_MAP-1, 1}, 
+			{0, 0}, {0, TAM_MAP-1}, {0, 1}, 
+			{TAM_MAP-2, 0}, {TAM_MAP-2, TAM_MAP-1}, {TAM_MAP-2, 1} };
+			memcpy(hood, temp_hood, sizeof(hood));
+		}else if(position[1] == TAM_MAP - 1){
+			int temp_hood[8][2] = {{TAM_MAP-1, TAM_MAP-2}, {TAM_MAP-1, 0}, 
+			{TAM_MAP-2, TAM_MAP-1}, {TAM_MAP-2, TAM_MAP-2}, {TAM_MAP-2, 0}, 
+			{0, TAM_MAP-1}, {0, 0}, {0, TAM_MAP-2} };
+			memcpy(hood, temp_hood, sizeof(hood));
+		}else{
+			int temp_hood[8][2] = {{position[0], position[1]-1}, {position[0], position[1]+1}, 
+			{position[0]-1, position[1]-1}, {position[0]-1, position[1]}, {position[0]-1, position[1]+1}, 
+			{0, position[1]-1}, {0, position[1]}, {0, position[1]+1}};
+			memcpy(hood, temp_hood, sizeof(hood));
+		}		
+	}else{
+		int temp_hood[8][2] = {{position[0], position[1]-1}, {position[0], position[1]+1}, 
+			{position[0]-1, position[1]-1}, {position[0]-1, position[1]}, {position[0]-1, position[1]+1}, 
+			{position[0]+1, position[1]-1}, {position[0]+1, position[1]}, {position[0]+1, position[1]+1}};	
+		memcpy(hood, temp_hood, sizeof(hood));	
+	}	
+	
+}
+
+
+class hunter : public animal {
+private:
     string name;
     
-    public:
+public:
+    hunter(int indice){
+    	name = "hunter" + to_string(indice);
+    	fome = 3;
+    	map[position[0]][position[1]] = 'H';
+    	
+	}
+	
+	void walk();
+	
+};
+
+
+class presa : public animal {
+private:
+    string name;
     
+public:
+    presa(int indice){
+    name = "presa" + to_string(indice);
+    fome = 3;
+    map[position[0]][position[1]] = 'P';
+	}
 };
 
 
 
-
-int main(){
-	create_map();
-	show_map();
-	
+int main() {
+    create_map();
     
+    hunter h1(1);
+    hunter h2(2);
+    
+    presa p1(1);
+    presa p2(2);
+    
+    show_map();
+    
+    return 0;
 }
