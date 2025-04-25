@@ -8,26 +8,24 @@ using namespace std;
 const int TAM_MAP = 30;
 char map[TAM_MAP][TAM_MAP];
 
-int num_int_rand() {
-    // 1. Definir o intervalo (range)
-    int min = 0;  // Valor mínimo
-    int max = TAM_MAP - 1;  // Valor máximo (array is 0..TAM_MAP-1)
+//função para gerar numero aleatorio inteiro
+int num_int_rand(int min, int max) {
 
-    // 2. Inicializar o gerador de números aleatórios
+    // Inicializar o gerador de números aleatórios
     random_device rd;  // Dispositivo aleatório (fonte de entropia)
     mt19937 gen(rd()); // Motor de geração (Mersenne Twister)
 
-    // 3. Criar uma distribuição uniforme no intervalo [min, max]
+    //  Criar uma distribuição uniforme no intervalo [min, max]
     uniform_int_distribution<int> distrib(min, max);
 
-    // 4. Gerar o número aleatório
+    //  Gerar o número aleatório
     return distrib(gen);
 }
 
 void create_map() {
     for(int i = 0; i < TAM_MAP; i++) {
         for(int j = 0; j < TAM_MAP; j++) {
-            map[i][j] = ' ';
+            map[i][j] = '.';
         }
     }
 }
@@ -53,15 +51,13 @@ class animal {
     		//para nascimento
     		bool test = true;
     		while(test) {
-        	position[0] = num_int_rand();
-        	position[1] = num_int_rand();
+        	position[0] = num_int_rand(0, TAM_MAP - 1);
+        	position[1] = num_int_rand(0, TAM_MAP - 1);
         
-        	if(map[position[0]][position[1]] == ' ') {
+        	if(map[position[0]][position[1]] == '.') {
             	test = false;
         		}
-			}
-		
-			
+			}					
 		}
 			void up_hood();
 };
@@ -123,11 +119,29 @@ public:
     	fome = 3;
     	map[position[0]][position[1]] = 'H';
     	
-	}
-	
-	void walk();
+	}	
+	void walk_hunter();
 	
 };
+
+void hunter::walk_hunter(){
+	int around_hunter = 0;
+	int *coord_presa;
+	for(int i=0; i<8; i++){
+		if(map[hood[i][0]][hood[i][1]] == 'P'){
+			around_hunter++;
+			
+		} 
+	}
+	
+	if(around_hunter == 0){
+		int new_indice = num_int_rand(0,7);
+		position[0] = hood[new_indice][1];
+		position[1] = hood[new_indice][1];
+	}else{
+		
+	}
+}
 
 
 class presa : public animal {
