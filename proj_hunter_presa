@@ -1,5 +1,5 @@
 #include <iostream>
-#include <random>
+#include <random> 
 #include <string> // para mudar o tipo do indice para string no nome
 #include <cstring> // para facilitar copiar matriz
 
@@ -43,10 +43,10 @@ class animal {
 	protected:
    		bool life = true;
     	int fome;
-    	int position[2]; // coordenada do animal
-    	int hood[8][2]; // vizinhaça da coordenada do animal
     	
+    	int hood[8][2]; // vizinhaça da coordenada do animal
     	public:
+    		int position[2]; // coordenada do animal
     		animal(){
     		//para nascimento
     		bool test = true;
@@ -110,12 +110,8 @@ void animal::up_hood(){
 
 
 class hunter : public animal {
-private:
-    string name;
-    
-public:
-    hunter(int indice){
-    	name = "hunter" + to_string(indice);
+    public:
+    hunter(){
     	fome = 3;
     	map[position[0]][position[1]] = 'H';
     	
@@ -126,31 +122,33 @@ public:
 
 void hunter::walk_hunter(){
 	int around_hunter = 0;
-	int *coord_presa;
+	int coord_presa[8];
 	for(int i=0; i<8; i++){
 		if(map[hood[i][0]][hood[i][1]] == 'P'){
+			coord_presa[around_hunter] = i;
 			around_hunter++;
-			
 		} 
 	}
 	
 	if(around_hunter == 0){
 		int new_indice = num_int_rand(0,7);
-		position[0] = hood[new_indice][1];
+		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
+		position[0] = hood[new_indice][0];
 		position[1] = hood[new_indice][1];
+		map[position[0]][position[1]] = 'H';
 	}else{
-		
+		int new_indice = coord_presa[num_int_rand(0,around_hunter-1)];
+		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
+		position[0] = hood[new_indice][0];
+		position[1] = hood[new_indice][1];
+		map[position[0]][position[1]] = 'H';
 	}
 }
 
 
 class presa : public animal {
-private:
-    string name;
-    
 public:
-    presa(int indice){
-    name = "presa" + to_string(indice);
+    presa(){
     fome = 3;
     map[position[0]][position[1]] = 'P';
 	}
@@ -160,14 +158,31 @@ public:
 
 int main() {
     create_map();
+    int quant_hunter = 0, quant_presa = 0;
     
-    hunter h1(1);
-    hunter h2(2);
+    // Criação do vetor de hunters
+    cout << "Quantos hunters ? \n";
+    cin >> quant_hunter;
+    hunter* hunters = new hunter[quant_hunter];
     
-    presa p1(1);
-    presa p2(2);
+    // Criação do vetor de presas
+    cout << "Quantos presas ? \n";
+    cin >> quant_presa;
+    presa* presas = new presa[quant_presa];
     
-    show_map();
+    cout << hunters[0].position[0] << " " <<  hunters[0].position[1]; 
+    
+    for(int i=0; i<1000; i++){
+    	show_map();
+    	hunters[0].up_hood();
+    	hunters[0].walk_hunter();
+    	system("cls");
+    }
+    
+    
+    // Liberação de memória ao fim do codigo
+    delete[] hunters;
+    delete[] presas;
     
     return 0;
 }
