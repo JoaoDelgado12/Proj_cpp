@@ -43,10 +43,10 @@ class animal {
 	protected:
    		bool life = true;
     	int fome;
-    	
     	int hood[8][2]; // vizinhaça da coordenada do animal
+    	int position[2]; // coordenada do animal
     	public:
-    		int position[2]; // coordenada do animal
+    		
     		animal(){
     		//para nascimento
     		bool test = true;
@@ -170,12 +170,14 @@ int main() {
     cin >> quant_presa;
     presa* presas = new presa[quant_presa];
     
-    cout << hunters[0].position[0] << " " <<  hunters[0].position[1]; 
-    
     for(int i=0; i<1000; i++){
     	show_map();
-    	hunters[0].up_hood();
-    	hunters[0].walk_hunter();
+    	
+    	for(int j=0; j<quant_hunter; j++){
+    		hunters[j].up_hood();
+    		hunters[j].walk_hunter();
+		}
+    	
     	system("cls");
     }
     
