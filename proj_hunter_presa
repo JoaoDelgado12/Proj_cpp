@@ -206,11 +206,11 @@ int main() {
     for(int i=0; i<1000; i++){
     	show_map();
     	
-    	for(int j=0; j<quant_hunter; j++){
-    		hunters[j].walk_hunter();
-		}
 		for(int j=0; j<quant_presa; j++){
     		presas[j].walk_presa();
+		}
+		for(int j=0; j<quant_hunter; j++){
+    		hunters[j].walk_hunter();
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(100)); // espera 0.1 segundos
     	system("cls");
