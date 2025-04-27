@@ -2,10 +2,13 @@
 #include <random> 
 #include <string> // para mudar o tipo do indice para string no nome
 #include <cstring> // para facilitar copiar matriz
+//para ficar melhor a vizulização do loop
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
-const int TAM_MAP = 30;
+const int TAM_MAP = 15;
 char map[TAM_MAP][TAM_MAP];
 
 //função para gerar numero aleatorio inteiro
@@ -45,9 +48,8 @@ class animal {
     	int fome;
     	int hood[8][2]; // vizinhaça da coordenada do animal
     	int position[2]; // coordenada do animal
-    	public:
-    		
-    		animal(){
+    public:
+    	animal(){
     		//para nascimento
     		bool test = true;
     		while(test) {
@@ -59,10 +61,11 @@ class animal {
         		}
 			}					
 		}
-			void up_hood();
+		void up_hood();
+		void defealt_walk(char especie);
 };
 
-
+// função para atualizar a vizinhança
 void animal::up_hood(){
 	if(position[0] == 0){
 		if(position[1] == 0){
@@ -108,6 +111,14 @@ void animal::up_hood(){
 	
 }
 
+// andar padrão -- ele chama a função que atualiza a vizinhança e depois anda
+void animal::defealt_walk(char especie){
+	int new_indice = num_int_rand(0,7);
+		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
+		position[0] = hood[new_indice][0];
+		position[1] = hood[new_indice][1];
+		map[position[0]][position[1]] = especie;
+}
 
 class hunter : public animal {
     public:
@@ -121,8 +132,9 @@ class hunter : public animal {
 };
 
 void hunter::walk_hunter(){
-	int around_hunter = 0;
-	int coord_presa[8];
+	up_hood();
+	int around_hunter = 0; //para contar quantas presas tem
+	int coord_presa[8]; // identifica qual coordenada está as presas
 	for(int i=0; i<8; i++){
 		if(map[hood[i][0]][hood[i][1]] == 'P'){
 			coord_presa[around_hunter] = i;
@@ -131,11 +143,7 @@ void hunter::walk_hunter(){
 	}
 	
 	if(around_hunter == 0){
-		int new_indice = num_int_rand(0,7);
-		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
-		position[0] = hood[new_indice][0];
-		position[1] = hood[new_indice][1];
-		map[position[0]][position[1]] = 'H';
+		defealt_walk('H');
 	}else{
 		int new_indice = coord_presa[num_int_rand(0,around_hunter-1)];
 		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
@@ -152,8 +160,33 @@ public:
     fome = 3;
     map[position[0]][position[1]] = 'P';
 	}
+	void walk_presa();
+	
 };
 
+void presa::walk_presa(){
+	up_hood();
+	int around_presa = 0; //para contar quantos espaços livres (.) tem ao redor
+	int coord_hunter[8];// identifica as coordenados onde estão os hunters
+	for(int i=0; i<8; i++){
+		if(map[hood[i][0]][hood[i][1]] == '.'){
+			coord_hunter[around_presa] = i;
+			around_presa++;
+		}
+	}
+	
+	if(around_presa == 8){
+		defealt_walk('P');
+	}else if(around_presa == 0){
+		
+	}else{
+		int new_indice = coord_hunter[num_int_rand(0,around_presa - 1)];
+		map[position[0]][position[1]] = '.';//a posição que ele estava, agora está vazia
+		position[0] = hood[new_indice][0];
+		position[1] = hood[new_indice][1];
+		map[position[0]][position[1]] = 'P';
+	}
+}
 
 
 int main() {
@@ -161,12 +194,12 @@ int main() {
     int quant_hunter = 0, quant_presa = 0;
     
     // Criação do vetor de hunters
-    cout << "Quantos hunters ? \n";
+    cout << "Quantos cacadores? \n";
     cin >> quant_hunter;
     hunter* hunters = new hunter[quant_hunter];
     
     // Criação do vetor de presas
-    cout << "Quantos presas ? \n";
+    cout << "Quantas presas? \n";
     cin >> quant_presa;
     presa* presas = new presa[quant_presa];
     
@@ -174,10 +207,12 @@ int main() {
     	show_map();
     	
     	for(int j=0; j<quant_hunter; j++){
-    		hunters[j].up_hood();
     		hunters[j].walk_hunter();
 		}
-    	
+		for(int j=0; j<quant_presa; j++){
+    		presas[j].walk_presa();
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(100)); // espera 0.1 segundos
     	system("cls");
     }
     
