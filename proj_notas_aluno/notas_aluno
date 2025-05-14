@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -9,9 +10,9 @@ struct aluno{
 	bool status;
 };
 
-void menu(){
+void menu(){ // menu das opcoes
 	cout << "       Menu Principal" << endl
-	<< "1 - Preencher dados do aluno (Nao pode calcular media, nem status)"  << endl
+	<< "1 - Preencher dados do aluno"  << endl
 	<< "2 - Calcular Media de todos os alunos" << endl
 	<< "3 - Atualizar a situacao de acordo com as medias geradas" << endl
 	<< "4 - Exibir todos os alunos Reprovados" << endl
@@ -20,19 +21,19 @@ void menu(){
 	<< "7 - Sair" << endl;
 }
 
-int perm_case(){
+int perm_case(){ // para perguntar a cada opcao se o usuario quer sair
 	char resp = ' ';
-	cout << "A operacao finalizou. \n Quer ir ao menu? (s/n)" << endl;
 	while(resp != 's' && resp != 'n'){
+		cout << "A operacao finalizou. \n Quer ir ao menu? (s/n)" << endl;
 		cin >> resp;
 		if(resp == 's'){
 			system("cls");
-			return 0;
+			return 0; // retorna 0 para opcao
 		}else if(resp == 'n'){
 			system("cls");
-			return 7;
+			return 7; // retorna 7 para opcao, ou seja, para sair do programa
 		}else{
-			cout << "Entrada invalida! \n Escreva (s) ou (n)";
+			cout << "Entrada invalida! \n Escreva (s) ou (n)"; 
 			system("pause");
 			system("cls");
 		}
@@ -50,9 +51,20 @@ int main(){
 				cin >> opcao;
 				break;
 			}
+			case 1:{
+				
+				break;
+			}
 		}
 	}
 }
+
+
+
+
+
+
+
 
 
 
