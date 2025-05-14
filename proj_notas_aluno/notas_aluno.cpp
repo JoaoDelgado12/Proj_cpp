@@ -32,7 +32,7 @@ int main() {
 			}
 			case 1: {
 				ALUNO aluno; // criando a variavel aluno
-				add_aluno(aluno, opcao);
+				add_aluno(aluno, opcao); //função para adicionar aluno
 				break;
 			}
 		}
@@ -112,4 +112,11 @@ void add_aluno(ALUNO aluno, int &op){
 	}
 }
 	
-		
+
+
+
+
+
+
+
+
