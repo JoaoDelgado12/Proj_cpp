@@ -1,0 +1,33 @@
+CONTEXTO:
+Uma escola com 3 turmas com cada turma ocupando no máximo 20 aluno.
+
+IDEIA:
+
+-----Para o struct eu pensei em:
+struct ALUNO {
+	char nome[100];
+	int matricula;
+	TURMA turma;
+};
+
+struct PROFESSOR {
+	char nome[100];
+	int cod_acesso;
+	TURMA turma[3];
+};
+
+struct TURMA {
+	char nome[9];
+};
+Pensei em colocar em turma o atributo professor e aluno como ponteiro, já que vai depender muito do cadastro dos alunos e professor.
+
+----- Mudar a função menu
+void menu() { // menu das opcoes
+	string array_menu[] = { // as opcoes do menu
+		"      Menu Principal",
+		"Cadastrar",
+		"Login",
+		"Sair"
+	};
+
+ meio que fazer uma interface que possa vizualizar as funções, mas peça para o usuario realizar o cadastro. 
