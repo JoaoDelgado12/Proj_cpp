@@ -3,10 +3,18 @@
 using namespace std;
 
 struct CLIENTE{
-    string nome;
+    char nome[100];
     unsigned cpf;
-    
-}
+    unsigned idade;
+    unsigned telefone;
+};
+
+struct STUFF{
+    char nome[100];
+    unsigned cpf;
+    unsigned idade;
+    unsigned telefone;
+};
 
 void meu();
 bool perm_case(opcao, frase);
@@ -14,7 +22,10 @@ bool perm_case(opcao, frase);
 int main() {
 	bool perm = 1; // variavel para mandar o programa rodando
 	int opcao = 0; // variavel para guardar a escolha do usuario
-
+    
+    CLIENTE vetor_cliente[100]; //vetores com os cliente
+    unsigned quant_cliente = 0; //quantidade de clientes atual
+    
 	while(perm) {
 		switch(opcao) {
 			case 0: {
@@ -58,7 +69,9 @@ void case_1(){
 				break;
 			}
 			case 1:{
+			    CLIENTE cliente;
 			    
+			    cadastro_cliente(cliente, opcao);
 			    break;
 			}
 			case 2:{
@@ -85,8 +98,35 @@ void case_1(){
 
 //funções de cadastro
 
-void cadastro_cliente(){
-    
+void cadastro_cliente(CLIENTE cliente, int &op){
+	bool perm_local = 1;
+	
+	while(perm_local){	
+		// cadastrar cliente
+		cout << "Qual o nome do cliente?" << endl;
+		cin >> ws;
+		cin.getline(cliente.nome, 100);
+		cout << "Qual o CPF do cliente?" << endl;
+		cin >> cliente.cpf;
+		cout << "Qual a idade do cliente" << endl;
+		cin >> cliente.idade;
+		cout << "Qual o telefone do cliente" << endl;
+		cin >> cliente.telefone;
+		system("cls");
+		
+		for(int ind=0; ind < quant_client + 1; ind++){
+		    if(cliente.cpf == vetor_cliente[ind].cpf){
+		        cout << "Cliente já cadastrado" << endl;
+		        op = 0;
+		        return;
+		    }
+		}
+		
+		vetor_cliente[quant_cliente] = cliente; //guardando
+		quant_cliente++;//apontando para o proximo lugar disponivel do vetor
+		
+		perm_local = perm_case(op, 's', 'n', "Voce quer adicionar mais um cliente?");
+	}
 }
 
 //menu
