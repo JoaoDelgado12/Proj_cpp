@@ -100,6 +100,11 @@ void case_1(){
 
 void cadastro_cliente(CLIENTE cliente, int &op){
 	bool perm_local = 1;
+	if(quant_cliente < 100){
+	    cout << "Limete de usuarios cadastrados";
+	    op = 0;
+	    return;
+	}
 	
 	while(perm_local){	
 		// cadastrar cliente
@@ -114,7 +119,8 @@ void cadastro_cliente(CLIENTE cliente, int &op){
 		cin >> cliente.telefone;
 		system("cls");
 		
-		for(int ind=0; ind < quant_client + 1; ind++){
+		//verifica se já está cadastrado
+		for(int ind=0; ind < 100; ind++){
 		    if(cliente.cpf == vetor_cliente[ind].cpf){
 		        cout << "Cliente já cadastrado" << endl;
 		        op = 0;
