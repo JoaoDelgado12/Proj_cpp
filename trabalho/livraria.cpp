@@ -167,3 +167,20 @@ void cadastrar_aluno(){
 		}
 	}
 }
+
+void cadastrar_funcionario(){
+	for(int i = 0; i < 100; i++){
+		if(funcionario[i].codigo == 0){
+			cout << "Informe o codigo do funcionario" << endl;
+			cin >> funcionario[i].codigo;
+			cout << "Informe o cpf do funcionario" << endl;
+			cin >> funcionario[i].cpf;
+			cout << "Informe o nome do funcionario" << endl;
+			cin >> funcionario[i].nome;
+			qtd_funcionarios++;
+			system("pause");
+			break;
+		}
+	}
+}
+
