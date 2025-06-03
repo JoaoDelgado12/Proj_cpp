@@ -12,14 +12,14 @@ int qtd_emprestimo = 0;
 
 // codigo da sua mulher 
 
-struct aluno{
+struct alunos{
 	unsigned matricula;
 	string nome;
 	unsigned idade;
 	unsigned telefone;
 };
 
-struct emprestimo{
+struct emprestimos{
 	unsigned codigo;
 	unsigned data;
 	unsigned matricula_aluno;
@@ -29,13 +29,13 @@ struct emprestimo{
 	float desconto;
 };
 
-struct funcionario{
+struct funcionarios{
 	unsigned codigo;
 	string nome;
 	unsigned cpf;
 };
 
-struct livro{
+struct livros{
 	unsigned ISBN;
 	string descricao;
 	int quantidade;
@@ -184,3 +184,20 @@ void cadastrar_funcionario(){
 	}
 }
 
+void cadastrar_livro(){
+	for(int i = 0; i < 100; i++){
+		if(livro[i].ISBN == 0){
+			cout << "Informe o ISBN do livro" << endl;
+			cin >> livro[i].ISBN;
+			cout << "Informe a descricao do livro" << endl;
+			cin >> livro[i].descricao;
+			cout << "Informe a quantidade do livro" << endl;
+			cin >> livro[i].quantidade;
+			cout << "Informe o valor do livro" << endl;
+			cin >> livro[i].valor;
+			qtd_livros++;
+			system("pause");
+			break;
+		}
+	}
+}
