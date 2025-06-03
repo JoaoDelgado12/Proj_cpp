@@ -4,6 +4,28 @@ using namespace std;
 
 bool perm_case(int &op, char ficar, char sair, string frase);
 
+// codigo da sua mulher 
+
+struct aluno{
+	unsigned matricula;
+	string nome;
+	unsigned idade;
+	undigned telefone;
+};
+
+struct funcionario{
+	unsigned codigo;
+	string nome;
+	unsigned cpf;
+};
+
+struct livro{
+	unsigned ISBN;
+	string descricao;
+	int quantidade;
+	float valor;
+};
+
 //case 0
 void menu_principal();
 
