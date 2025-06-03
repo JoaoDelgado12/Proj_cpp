@@ -4,14 +4,13 @@ using namespace std;
 
 bool perm_case(int &op, char ficar, char sair, string frase);
 
-struct emprestimo{
-	unsigned codigo;
-	unsigned data;
-	unsigned matricula_aluno;
-	unsigned codigo_funcionario;
-	unsigned ISBN;
-	int quantidade;
-	float desconto;
+// codigo da sua mulher 
+
+struct aluno{
+	unsigned matricula;
+	string nome;
+	unsigned idade;
+	unsigned telefone;
 };
 
 struct emprestimo{
@@ -22,6 +21,19 @@ struct emprestimo{
 	unsigned ISBN;
 	int quantidade;
 	float desconto;
+};
+
+struct funcionario{
+	unsigned codigo;
+	string nome;
+	unsigned cpf;
+};
+
+struct livro{
+	unsigned ISBN;
+	string descricao;
+	int quantidade;
+	float valor;
 };
 
 //case 0
@@ -100,3 +112,4 @@ bool perm_case(int &op, char ficar, char sair, string frase){ // para perguntar 
 	}
 	return 0;
 }
+
