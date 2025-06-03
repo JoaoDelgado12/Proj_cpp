@@ -1,1 +1,30 @@
+#include <iostream>
 
+using namespace std;
+
+void menu_cadastro(){
+	cout << "1 - Cadastrar aluno" << endl;
+	cout << "2 - Cadastrar funcionário" << endl;
+	cout << "3 - Cadastrar livro" << endl;
+	cout << "4 - Voltar ao menu principal" << endl;
+}
+
+struct aluno{
+	unsigned matricula;
+	string nome;
+	unsigned idade;
+	undigned telefone;
+};
+
+struct funcionario{
+	unsigned codigo;
+	string nome;
+	unsigned cpf;
+};
+
+struct livro{
+	unsigned ISBN;
+	string descricao;
+	int quantidade;
+	float valor;
+};
