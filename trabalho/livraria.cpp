@@ -26,6 +26,16 @@ struct livro{
 	float valor;
 };
 
+struct emprestimo{
+	unsigned codigo;
+	unsigned data;
+	unsigned matricula_aluno;
+	unsigned codigo_funcionario;
+	unsigned ISBN;
+	int quantidade;
+	float desconto;
+};
+
 //case 0
 void menu_principal();
 
