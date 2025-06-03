@@ -111,6 +111,21 @@ void menu_cadastro(){
 	cout << "4 - Voltar ao menu principal" << endl;
 }
 
+void menu_relatorio(){
+	string array_menu[] = { // as opcoes do menu
+		"Exibir o total a pagar por Aluno ",
+        "Exibir o total de empréstimo por funcionário",
+        "Voltar ao menu Principal"
+	};
+	//essa parte é só para eu não me preocupar com o tamnanho do array
+	cout <<"      Menu" << endl;
+	int ind = 1;
+	for(string frase  : array_menu){
+	    cout << ind << " - " << frase << endl;
+	}
+}
+
+
 //tools
 bool perm_case(int &op, char ficar, char sair, string frase){ // para perguntar a cada opcao se o usuario quer sair
 	char resp = ' ';
