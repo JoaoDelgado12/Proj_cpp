@@ -12,14 +12,14 @@ int qtd_emprestimo = 0;
 
 // codigo da sua mulher 
 
-struct aluno{
+struct alunos{
 	unsigned matricula;
 	string nome;
 	unsigned idade;
 	unsigned telefone;
 };
 
-struct emprestimo{
+struct emprestimos{
 	unsigned codigo;
 	unsigned data;
 	unsigned matricula_aluno;
@@ -29,13 +29,13 @@ struct emprestimo{
 	float desconto;
 };
 
-struct funcionario{
+struct funcionarios{
 	unsigned codigo;
 	string nome;
 	unsigned cpf;
 };
 
-struct livro{
+struct livros{
 	unsigned ISBN;
 	string descricao;
 	int quantidade;
@@ -52,6 +52,8 @@ emprestimos emprestimo[100];
 //case 0
 void menu_principal();
 
+//case 2
+void cadastrar_aluno();
 
 
 int main() {
@@ -85,6 +87,32 @@ int main() {
 				break;
 		    }
 		}
+	}
+}
+
+void case_2(int &opcao){
+	//ainda preenchendo
+}
+
+//funções de verificação do caso_2
+void verificar_aluno(int &opcao){
+	unsigned matricula_teste;
+	
+	cout << "Qual sua matricula?";//pergunta a matricula
+	cin >> matricula_teste;
+	
+	bool teste_cadastro = 0;// faz o teste se tem a matricula
+	for(int i=0; i < 100; i++){
+		if(aluno[i].matricula == matricula_teste){
+			teste_cadastro = 1;
+		}
+	}
+	if(!teste_cadastro){//se não tiver, então faça o cadastro e retone para fazer o emprestimo
+		cout << "Voce nao tem cadastro, por favor realize um para fazer o emprestimo.";
+		system("cls");
+		cadastrar_aluno();
+		opcao = 2;
+		return ;
 	}
 }
 
