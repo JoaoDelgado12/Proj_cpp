@@ -4,6 +4,12 @@ using namespace std;
 
 bool perm_case(int &op, char ficar, char sair, string frase);
 
+//contadores/variaveis globais
+int qtd_alunos = 0;
+int qtd_funcionarios = 0;
+int qtd_livros = 0;
+int qtd_emprestimo = 0;
+
 // codigo da sua mulher 
 
 struct aluno{
@@ -35,6 +41,13 @@ struct livro{
 	int quantidade;
 	float valor;
 };
+
+//Variaveis/vetores:
+
+alunos aluno[100];
+funcionarios funcionario[100];
+livros livro[100];
+emprestimos emprestimo[100];
 
 //case 0
 void menu_principal();
@@ -91,6 +104,13 @@ void menu_principal() { // menu das opcoes
 	}
 }
 
+void menu_cadastro(){
+	cout << "1 - Cadastrar aluno" << endl;
+	cout << "2 - Cadastrar funcionário" << endl;
+	cout << "3 - Cadastrar livro" << endl;
+	cout << "4 - Voltar ao menu principal" << endl;
+}
+
 //tools
 bool perm_case(int &op, char ficar, char sair, string frase){ // para perguntar a cada opcao se o usuario quer sair
 	char resp = ' ';
@@ -113,3 +133,22 @@ bool perm_case(int &op, char ficar, char sair, string frase){ // para perguntar 
 	return 0;
 }
 
+// Funções cadastro:
+
+void cadastrar_aluno(){
+	for(int i = 0; i < 100; i++){
+		if(aluno[i].matricula == 0){
+			cout << "Informe a matricula do aluno" << endl;
+			cin >> aluno[i].matricula;
+			cout << "Informe o nome do aluno" << endl;
+			cin >> aluno[i].nome;
+			cout << "Informe a idade do aluno" << endl;
+			cin >> aluno[i].idade;
+			cout << "Informe o telefone do aluno" << endl;
+			cin >> aluno[i].telefone;
+			qtd_alunos++;
+			system("pause");
+			break;
+		}
+	}
+}
