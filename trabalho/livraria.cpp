@@ -212,6 +212,25 @@ void cadastrar_funcionario(){
 	}
 }
 
+void cadastrar_livro(){
+	for(int i = 0; i < 100; i++){
+		if(livro[i].ISBN == 0){
+			cout << "Informe o ISBN do livro" << endl;
+			cin >> livro[i].ISBN;
+			cout << "Informe a descricao do livro" << endl;
+			cin >> livro[i].descricao;
+			cout << "Informe a quantidade do livro" << endl;
+			cin >> livro[i].quantidade;
+			cout << "Informe o valor do livro" << endl;
+			cin >> livro[i].valor;
+			qtd_livros++;
+			system("pause");
+			break;
+		}
+	}
+}
+
+
 void funcao_case(){
 		int op = 0, op_cadastro, op_relatorio = 0;
 	do{
