@@ -255,3 +255,84 @@ void cadastrar_funcionario() {
 	}
 }
 
+
+void cadastrar_livro(){
+	for(int i = 0; i < 100; i++){
+		if(livro[i].ISBN == 0){
+			cout << "Informe o ISBN do livro" << endl;
+			cin >> livro[i].ISBN;
+			cout << "Informe a descricao do livro" << endl;
+			cin >> livro[i].descricao;
+			cout << "Informe a quantidade do livro" << endl;
+			cin >> livro[i].quantidade;
+			cout << "Informe o valor do livro" << endl;
+			cin >> livro[i].valor;
+			qtd_livros++;
+			system("pause");
+			break;
+		}
+	}
+}
+
+
+void funcao_case(){
+		int op = 0, op_cadastro, op_relatorio = 0;
+	do{
+		menu_principal();
+		cout << "Informe a opcao desejada" << endl;
+		cin >> op;
+		
+		switch(op){
+			// Cadastros
+			case 1: 
+				do{
+					menu_cadastro();
+					cout << "Informe a opcao desejada" << endl;
+					cin >> op_cadastro;
+					switch(op_cadastro){
+						case 1:
+							cadastrar_aluno();
+							break;
+						case 2:
+							cadastrar_funcionario();
+							break;
+						case 3:
+							cadastrar_livro();
+							break;
+						case 4:
+							cout << "Voltando ao menu principal" << endl;
+							system("pause");
+							break;
+					}			
+				}while(op_cadastro != 4);
+				break;
+			case 2:
+				// Emprestimos
+				//case_2(); // falta preencher
+				break;	
+			case 3:
+				//Relatorios
+				do{
+					menu_relatorio();
+					cout << "Informe a opcao desejada" << endl;
+					cin >> op_relatorio;
+					
+					switch(op_relatorio){
+						case 1:
+							cout << "Total a pagar: " << endl; // falta preencher
+							break;
+						case 2:
+							cout << "Total do emprestimo: " << endl; //falta preencher
+							break;
+						case 3:
+							cout << "Voltando ao menu principal" << endl;
+							system("pause");
+							break;
+					}
+				}while(op_relatorio != 3);
+				break;
+			case 4:
+				break;
+		}
+	}while(op != 4);
+}
