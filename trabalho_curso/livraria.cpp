@@ -52,12 +52,17 @@ emprestimos emprestimo[100];
 //case 0
 void menu_principal();
 
-//case 2
-void cadastrar_aluno();
+//case 1
+void menu_cadastro();
+void cadastrar_livro();
 void cadastrar_funcionario();
-void verificar_funcionario(int &opcao);
-void verificar_aluno(int &opcao);
+void cadastrar_aluno();
+void case1(int &opcao);
 
+//case 2
+void verificar_funcionario(int &opcao, unsigned &codigo_teste);
+void verificar_aluno(int &opcao, unsigned &codigo_teste);
+void verificar_livro(int &opcao, unsigned &codigo_livro);
 
 int main() {
 	bool perm = 1; // variavel para mandar o programa rodando
@@ -72,6 +77,7 @@ int main() {
 				break;
 			}
 			case 1: {
+				case1(opcao);
 				break;
 			}
 			case 2: {
@@ -81,55 +87,37 @@ int main() {
 					cout << "Qual seu codigo?";//pergunta o codigo
 					cin >> codigo_teste;
 
-					bool teste_cadastro = 0;// faz o teste se tem o codigo
-					for(int i=0; i < 100; i++) {
-						if(funcionario[i].codigo == codigo_teste) {
-							teste_cadastro = 1;
-						}
-					}
-					if(!teste_cadastro) { //se não tiver, então faça o cadastro e retone para fazer o emprestimo
-						cout << "Voce ainda nao tem cadastro. Por favor realize o cadastro para exercer essa funcao.";
-						system("cls");
-						cadastrar_funcionario();
-						opcao = 2;
-					}
+					verificar_funcionario(opcao, codigo_teste); //verificar o funcionario;
 
-					emprestimo[qtd_emprestimo].codigo_funcionario = codigo_teste;
+					emprestimo[qtd_emprestimo].codigo_funcionario = codigo_teste; //registra o funcionario no emprestimo
 
 					unsigned matricula_teste;// matricula do aluno
 					cout << "Qual a sua matricula?";//pergunta a matricula
-					cin >> codigo_teste;
+					cin >> matricula_teste;
 
-					teste_cadastro = 0;// faz o teste se tem a matricula
-					for(int i=0; i < 100; i++) {
-						if(aluno[i].matricula == matricula_teste) {
-							teste_cadastro = 1;
-						}
-					}
-					if(!teste_cadastro) { //se não tiver, então faça o cadastro e retone para fazer o emprestimo
-						cout << "Voce ainda nao tem cadastro. Por favor realize o cadastro para fazer o emprestimo.";
-						system("cls");
-						cadastrar_funcionario();
-						opcao = 2;
-					}
+					verificar_aluno(opcao, matricula_teste);// verifica o aluno
 
-					emprestimo[qtd_emprestimo].matricula_aluno = matricula_teste;
+					emprestimo[qtd_emprestimo].matricula_aluno = matricula_teste; // registra o aluno no emprestimo
 					
-					emprestimo[qtd_emprestimo].codigo = qtd_emprestimo;
+					unsigned codigo_livro;
+					cout << "Qual o codigo do livro"; // pergunta o codigo do livro
+					cin >> codigo_livro;
 					
-					cout << "Qual o codigo do livro";
-					cin >> emprestimo[qtd_emprestimo].ISBN;
+					verificar_livro(opcao, codigo_livro); //verifcar se tem o cadastro do livro e se tem o livro no estoque
+					
+					emprestimo[qtd_emprestimo].codigo = qtd_emprestimo; // cadastro do codigo do emprestimo 
+					qtd_emprestimo++;
 					
 					cout << "Quantos livros ?";
-					cin >> emprestimo[qtd_emprestimo].quantidade;
-					
+					cin >> emprestimo[qtd_emprestimo].quantidade;// quantidade do livro
+
 					cout << "Qual e a data";
-					cin >> emprestimo[qtd_emprestimo].data;
-					
+					cin >> emprestimo[qtd_emprestimo].data; //data
+
 					char resp;
-					cout << "Tem desconto ? (s/n)";
+					cout << "Tem desconto ? (s/n)"; //desconto
 					cin >> resp;
-					if(resp == 's'){
+					if(resp == 's') {
 						cout << "Qual e a data";
 						cin >> emprestimo[qtd_emprestimo].desconto;
 					}
@@ -154,7 +142,41 @@ int main() {
 	}
 }
 
+void case1(int &opcao) {
+	bool perm_case1 = 1; // variavel para mandar o programa rodando
+	int opcao_case1 = 0; // variavel para guardar a escolha do usuario
 
+
+	while(perm_case1) {
+		switch(opcao_case1) {
+			case 0: {
+				menu_cadastro();
+				cin >> opcao_case1;
+				break;
+			}
+			case 1: {
+				cadastrar_aluno();
+				break;
+			}
+			case 2:{
+				cadastrar_funcionario();
+				break;
+			}
+			case 3:{
+				cadastrar_livro();
+				break;
+			}
+			case 4: {
+				perm_case1 = perm_case(opcao, 'n', 's', "Certeza que quer sair ?(s/n)");
+				break;
+			}
+			default: {
+				cout << "Entrada inválida. \n por favor coloque uma entrada validade de 1 a 4. \n";
+				break;
+			}
+		}
+	}
+}
 
 
 
@@ -176,10 +198,18 @@ void menu_principal() { // menu das opcoes
 }
 
 void menu_cadastro() {
-	cout << "1 - Cadastrar aluno" << endl;
-	cout << "2 - Cadastrar funcionário" << endl;
-	cout << "3 - Cadastrar livro" << endl;
-	cout << "4 - Voltar ao menu principal" << endl;
+	string array_menu[] = { // as opcoes do menu
+		"Cadastrar aluno",
+		"Cadastrar funcionário",
+		"Cadastrar livro",
+		"Voltar ao menu principal"
+	};
+	//essa parte é só para eu não me preocupar com o tamnanho do array
+	cout <<"      Menu Principal" << endl;
+	int ind = 1;
+	for(string frase  : array_menu) {
+		cout << ind << " - " << frase << endl;
+	}
 }
 
 void menu_relatorio() {
@@ -255,10 +285,9 @@ void cadastrar_funcionario() {
 	}
 }
 
-
-void cadastrar_livro(){
-	for(int i = 0; i < 100; i++){
-		if(livro[i].ISBN == 0){
+void cadastrar_livro() {
+	for(int i = 0; i < 100; i++) {
+		if(livro[i].ISBN == 0) {
 			cout << "Informe o ISBN do livro" << endl;
 			cin >> livro[i].ISBN;
 			cout << "Informe a descricao do livro" << endl;
@@ -274,65 +303,56 @@ void cadastrar_livro(){
 	}
 }
 
-
-void funcao_case(){
-		int op = 0, op_cadastro, op_relatorio = 0;
-	do{
-		menu_principal();
-		cout << "Informe a opcao desejada" << endl;
-		cin >> op;
-		
-		switch(op){
-			// Cadastros
-			case 1: 
-				do{
-					menu_cadastro();
-					cout << "Informe a opcao desejada" << endl;
-					cin >> op_cadastro;
-					switch(op_cadastro){
-						case 1:
-							cadastrar_aluno();
-							break;
-						case 2:
-							cadastrar_funcionario();
-							break;
-						case 3:
-							cadastrar_livro();
-							break;
-						case 4:
-							cout << "Voltando ao menu principal" << endl;
-							system("pause");
-							break;
-					}			
-				}while(op_cadastro != 4);
-				break;
-			case 2:
-				// Emprestimos
-				//case_2(); // falta preencher
-				break;	
-			case 3:
-				//Relatorios
-				do{
-					menu_relatorio();
-					cout << "Informe a opcao desejada" << endl;
-					cin >> op_relatorio;
-					
-					switch(op_relatorio){
-						case 1:
-							cout << "Total a pagar: " << endl; // falta preencher
-							break;
-						case 2:
-							cout << "Total do emprestimo: " << endl; //falta preencher
-							break;
-						case 3:
-							cout << "Voltando ao menu principal" << endl;
-							system("pause");
-							break;
-					}
-				}while(op_relatorio != 3);
-				break;
-			case 4:
-				break;
+// Funções de verificação:
+void verificar_funcionario(int &opcao, unsigned &codigo_teste){
+	bool teste_cadastro = 0;// faz o teste se tem o codigo
+	for(int i=0; i < 100; i++) {
+		if(funcionario[i].codigo == codigo_teste) {
+			teste_cadastro = 1;
 		}
-	}while(op != 4);
+	}
+	if(!teste_cadastro) { //se não tiver, então faça o cadastro e retone para fazer o emprestimo
+		cout << "Voce ainda nao tem cadastro. Por favor realize o cadastro para exercer essa funcao.";
+		system("cls");
+		cadastrar_funcionario();
+		return;
+	}
+}
+
+void verificar_aluno(int &opcao, unsigned &matricula_teste){
+	bool teste_cadastro = 0;// faz o teste se tem a matricula
+	for(int i=0; i < 100; i++) {
+		if(aluno[i].matricula == matricula_teste) {
+			teste_cadastro = 1;
+		}
+	}
+	if(!teste_cadastro) { //se não tiver, então faça o cadastro e retone para fazer o emprestimo
+		cout << "Voce ainda nao tem cadastro. Por favor realize o cadastro para fazer o emprestimo.";
+		system("cls");
+		cadastrar_aluno();
+		return;
+	}
+}
+
+void verificar_livro(int &opcao, unsigned &codigo_livro){
+	bool teste_cadastro = 0;// faz o teste se tem a matricula
+	for(int i=0; i < 100; i++) {
+		if(livro[i].ISBN == codigo_livro) {
+			teste_cadastro = 1;
+		}
+	}
+	if(!teste_cadastro) { //se não tiver, então faça o cadastro e retone para fazer o emprestimo
+		cout << "O livro não tem cadastro.";
+		system("cls");
+		cadastrar_livro();
+		return;
+	}
+	for(int i=0; i < 100; i++){
+		if(livro[i].ISBN == codigo_livro){
+			if(livro[i].quantidade < 0){
+				cout << "Não tem livro no estoque";
+				return;
+			}
+		}
+	}
 }
