@@ -132,6 +132,7 @@ void case1(int &opcao) {
 			case 0: {
 				menu_cadastro();
 				cin >> opcao_case1;
+				system("cls");
 				break;
 			}
 			case 1: {
@@ -147,14 +148,14 @@ void case1(int &opcao) {
 				break;
 			}
 			case 4: {
-				perm_case1 = perm_case(opcao_case1, 'n', 's', "Certeza que quer sair ?(s/n)");
-				if(opcao_case1 == 5){
-					return;
-				}
+				perm_case1 = perm_case(opcao, 'n', 's', "Certeza que quer sair ?(s/n)");
 				break;
 			}
 			default: {
-				cout << "Entrada inválida. \n por favor coloque uma entrada validade de 1 a 4. \n";
+				cout << "Entrada invalida.\n por favor coloque uma entrada validade de 1 a 4. \n" << endl;
+				opcao_case1 = 0;
+				system("pause");
+				system("cls");
 				break;
 			}
 		}
@@ -168,23 +169,21 @@ void case2(int &opcao) {
 		cout << "Qual seu codigo?";//pergunta o codigo
 		cin >> codigo_teste;
 		verificar_funcionario(opcao, codigo_teste); //verificar o funcionario;
-
 		emprestimo[qtd_emprestimo].codigo_funcionario = codigo_teste; //registra o funcionario no emprestimo
+		system("cls");
 
 		unsigned matricula_teste;// matricula do aluno
 		cout << "Qual a sua matricula?";//pergunta a matricula
 		cin >> matricula_teste;
-
 		verificar_aluno(opcao, matricula_teste);// verifica o aluno
-
 		emprestimo[qtd_emprestimo].matricula_aluno = matricula_teste; // registra o aluno no emprestimo
+		system("cls");
 
 		unsigned codigo_livro;
 		cout << "Qual o codigo do livro"; // pergunta o codigo do livro
 		cin >> codigo_livro;
-
 		verificar_livro(opcao, codigo_livro); //verifcar se tem o cadastro do livro e cadastrar
-		for(int i=0; i < 100; i++) { //verificar se tem no estoque
+		for(int i=0; i < qtd_livros; i++) { //verificar se tem no estoque
 			if(livro[i].ISBN == codigo_livro) {
 				if(livro[i].quantidade < 0) {
 					cout << "Não tem livro no estoque";
@@ -192,12 +191,15 @@ void case2(int &opcao) {
 				}
 			}
 		}
+		system("cls");
+		
 		emprestimo[qtd_emprestimo].codigo = qtd_emprestimo; // cadastro do codigo do emprestimo
 		qtd_emprestimo++;
 
 		cout << "Quantos livros ?";
 		cin >> emprestimo[qtd_emprestimo].quantidade;// quantidade do livro
-
+		qtd_livros = qtd_livros - emprestimo[qtd_emprestimo].quantidade;
+		
 		cout << "Qual a data de emprestimo?"; //data de emprestimo
 		cout << "Dia: ";
 		cin >> emprestimo[qtd_emprestimo].data_emprestimo.dia; // dia do emprestimo
@@ -387,7 +389,7 @@ bool perm_case(int &op, char ficar, char sair, string frase) { // para perguntar
 			return 1; // permanece na operacao
 		} else if(resp == sair) {
 			system("cls");
-			op = 5; // para ir ao menu
+			op = 0; // para ir ao menu
 			return 0; // para sair da operacao
 		} else {
 			cout << "Entrada invalida! \n Escreva (s) ou (n)";
