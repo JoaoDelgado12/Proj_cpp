@@ -250,7 +250,7 @@ void case3(int &opcao) {
 			cout << "Devolucao feita dentro do prazo.";
 		} else {
 			cout << "Infelizmente você ultrapassou a data de devolucao." << endl
-			     << "A multa ficou: " << contagem << "reais";
+			     << "A multa ficou: " << 2*contagem << "reais";
 		}
 
 		perm_case3 = perm_case(opcao, 's', 'n', "Mais algum emprestimo? (s/n)");
@@ -298,16 +298,22 @@ void total_aluno(int &opcao) {
 	verificar_aluno(opcao, matricula_teste); //verifica a matricula do aluno
 
 	double valor_total = 0; //para guardar o valor
-	for(int i=0; i < 100; i++) {
-		if(emprestimo[i].matricula_aluno == matricula_teste) { //achando o emprestimo do aluno
-			for(int j=0; j < 100; j++) {
-				if(emprestimo[i].ISBN == livro[j].ISBN) { /// achando o livro alugando
+	for(int i=0; i < qtd_emprestimo; i++){
+		if(emprestimo[i].matricula_aluno == matricula_teste){ //achando o emprestimo do aluno
+			for(int j=0; j < qtd_livros; j++) {
+				if(emprestimo[i].ISBN == livro[j].ISBN) { // achando o livro alugando
 					int contagem = contagem_data(matricula_teste, emprestimo[i].ISBN, 0);
-					valor_total += livro[j].valor * emprestimo[i].quantidade + contagem; //adcianando o valor do emprestimo do livro mais multa
+					valor_total += livro[j].valor * emprestimo[i].quantidade * emprestimo[i].desconto + 2*contagem; //adcianando o valor do emprestimo do livro mais multa
 				}
 			}
 		}
 	}
+	for(int i=0; i < qtd_alunos; i++){
+		if(aluno[i].matricula == matricula_teste){
+			cout << "O valor que " << aluno[i].nome << " deve é: " << valor_total << endl;
+		}
+	}
+	
 }
 
 void total_funcionario(int &opcao) {
@@ -323,9 +329,14 @@ void total_funcionario(int &opcao) {
 			for(int j=0; j < 100; j++) {
 				if(emprestimo[i].ISBN == livro[j].ISBN) { /// achando o livro que foi alugado
 					int contagem = contagem_data(0, emprestimo[i].ISBN, codigo);
-					valor_total += livro[j].valor * emprestimo[i].quantidade + contagem; //adcianando o valor do emprestimo do livro mais multa
+					valor_total += livro[j].valor * emprestimo[i].quantidade * emprestimo[i].desconto + contagem; //adcianando o valor do emprestimo do livro mais multa
 				}
 			}
+		}
+	}
+	for(int i=0; i < qtd_funcionarios; i++){
+		if(funcionario[i].codigo == codigo){
+			cout << "O valor que " << funcionario[i].nome << " arrecadou é: " << valor_total << endl;
 		}
 	}
 }
